@@ -34,7 +34,7 @@ public class AuthorizeProvider {
              */
             String result = response.body().string();
             System.out.println("accessToken = " + result);
-            return result;
+            return result.substring(result.indexOf("=")+1,result.indexOf("&")+1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -43,7 +43,7 @@ public class AuthorizeProvider {
 
     public UserDTO getUser(String accessToken) {
         Request request = new Request.Builder()
-                .url("https://api.github.com/user?" + accessToken)
+                .url("https://api.github.com/user?access_token=" + accessToken)
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
