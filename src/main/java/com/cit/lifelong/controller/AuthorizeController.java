@@ -11,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 /**
@@ -41,7 +43,8 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
-                           HttpServletRequest httpServletRequest) {
+                           HttpServletRequest httpServletRequest,
+                           HttpServletResponse httpServletResponse) {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);
@@ -60,8 +63,9 @@ public class AuthorizeController {
             user.setGmt_create(System.currentTimeMillis());
             user.setGmt_modified(user.getGmt_create());
             userMapper.insert(user);
-            //TODO 为什么不是httpsession
-            httpServletRequest.getSession().setAttribute("user",userDTO);
+            httpServletResponse.addCookie(new Cookie("token",user.getToken()));
+//            //TODO 为什么不是httpsession
+//            httpServletRequest.getSession().setAttribute("user",userDTO);
         } //登陆失败 重新登陆
 
         return "redirect:/";

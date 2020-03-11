@@ -1,7 +1,13 @@
 package com.cit.lifelong.controller;
 
+import com.cit.lifelong.mapper.UserMapper;
+import com.cit.lifelong.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @ClassName IndexController
@@ -12,8 +18,22 @@ import org.springframework.web.bind.annotation.GetMapping;
  **/
 @Controller
 public class IndexController {
+    @Autowired
+    UserMapper userMapper;
+
     @GetMapping("/")
-    public String index(){
+    public String index(HttpServletRequest httpServletRequest){
+        if(httpServletRequest.getCookies()!=null) {
+            for (Cookie cookie : httpServletRequest.getCookies()) {
+                if ("token".equals(cookie.getName())) {
+                    User user = userMapper.findUserByToken(cookie.getValue());
+                    if (user != null) {
+                        httpServletRequest.getSession().setAttribute("user", user);
+                    }
+                    break;
+                }
+            }
+        }
         return "index";
     }
 }

@@ -29,3 +29,5 @@ build/
 
 ### VS Code ###
 .vscode/
+/lifelong.mv.db
+/lifelong.trace.db
