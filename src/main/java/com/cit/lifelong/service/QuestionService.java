@@ -47,4 +47,24 @@ public class QuestionService {
 
         return paginationDTO;
     }
+
+    public PaginationDTO getQuestionByCreator(int id, Integer page, Integer size) {
+        int total = questionMapper.countByCreator(id);
+        PaginationDTO paginationDTO = new PaginationDTO();
+        paginationDTO.setPagination(total,page,size);
+
+        List<Question> questionList = questionMapper.listByCreator(id,(page-1)*size,size);
+        List<QuestionDTO> questionDTOList = new ArrayList<>();
+        for (Question question: questionList) {
+            User user = userMapper.findUserById(question.getCreator());
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(question,questionDTO);
+            questionDTO.setUser(user);
+            questionDTOList.add(questionDTO);
+        }
+
+        paginationDTO.setQuestionDTOList(questionDTOList);
+
+        return paginationDTO;
+    }
 }

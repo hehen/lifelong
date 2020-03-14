@@ -31,12 +31,9 @@ public class PaginationDTO {
         }else {
             this.totalPage = total/size+1;
         }
+        this.page = Math.min(page, totalPage);
         if(page<1){
             this.page =1;
-        }else if(page>totalPage){
-            this.page =totalPage;
-        }else {
-            this.page = page;
         }
         pages.add(page);
         for (int i = 1; i <= 3; i++) {
