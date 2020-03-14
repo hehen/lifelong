@@ -12,6 +12,7 @@ public class User {
     private String account_id;
     private String name;
     private String token;
+    private String avatar_url;
     private long gmt_create;
     private long gmt_modified;
 
@@ -61,5 +62,13 @@ public class User {
 
     public void setGmt_modified(long gmt_modified) {
         this.gmt_modified = gmt_modified;
+    }
+
+    public String getAvatar_url() {
+        return avatar_url;
+    }
+
+    public void setAvatar_url(String avatar_url) {
+        this.avatar_url = avatar_url;
     }
 }

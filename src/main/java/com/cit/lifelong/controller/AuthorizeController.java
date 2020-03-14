@@ -62,6 +62,7 @@ public class AuthorizeController {
             user.setToken(UUID.randomUUID().toString());
             user.setGmt_create(System.currentTimeMillis());
             user.setGmt_modified(user.getGmt_create());
+            user.setAvatar_url(userDTO.getAvatar_url());
             userMapper.insert(user);
             httpServletResponse.addCookie(new Cookie("token",user.getToken()));
 //            //TODO 为什么不是httpsession
