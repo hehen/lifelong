@@ -35,17 +35,6 @@ public class IndexController {
     public String index(@RequestParam(name = "page",defaultValue = "1") Integer page,
                         @RequestParam(name = "size",defaultValue = "5") Integer size,
                         HttpServletRequest httpServletRequest, Model model){
-        if(httpServletRequest.getCookies()!=null) {
-            for (Cookie cookie : httpServletRequest.getCookies()) {
-                if ("token".equals(cookie.getName())) {
-                    User user = userMapper.findUserByToken(cookie.getValue());
-                    if (user != null) {
-                        httpServletRequest.getSession().setAttribute("user", user);
-                    }
-                    break;
-                }
-            }
-        }
         PaginationDTO paginationDTO = questionService.getQuestionList(page,size);
         model.addAttribute("paginationDTO",paginationDTO);
         return "index";

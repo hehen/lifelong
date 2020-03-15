@@ -34,18 +34,7 @@ public class ProfileController {
                           @RequestParam(name = "page", defaultValue = "1") Integer page,
                           @RequestParam(name = "size", defaultValue = "5") Integer size,
                           HttpServletRequest httpServletRequest, Model model) {
-        User user = null;
-        if (httpServletRequest.getCookies() != null) {
-            for (Cookie cookie : httpServletRequest.getCookies()) {
-                if ("token".equals(cookie.getName())) {
-                    user = userMapper.findUserByToken(cookie.getValue());
-                    if (user != null) {
-                        httpServletRequest.getSession().setAttribute("user", user);
-                    }
-                    break;
-                }
-            }
-        }
+        User user = (User) httpServletRequest.getSession().getAttribute("user");
         if (user == null) {
             return "redirect:/";
         }

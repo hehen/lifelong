@@ -18,7 +18,7 @@
         <div class="media" th:each="question : ${paginationDTO.questionDTOList}">
             <div class="media-left">
                 <a href="#">
-                    <img class="media-object" src="${question.user.avatarUrl}" alt="...">
+                    <img class="media-object" th:src="${question.user.avatar_url}" alt="...">
                 </a>
             </div>
             <div class="media-body">
